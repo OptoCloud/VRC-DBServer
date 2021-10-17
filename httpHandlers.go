@@ -13,7 +13,8 @@ import (
 
 type UserRecord struct {
 	Id            string    `json:"id" bson:"_id"`
-	Name          string    `json:"name" bson:"name"`
+	UserName      string    `json:"uname" bson:"uname"`
+	DisplayName   string    `json:"dname" bson:"dname"`
 	DeveloperType string    `json:"developer_type" bson:"developer_type"`
 	UpdatedAt     time.Time `json:"updated_at" bson:"updated_at"`
 	DetectedAt    time.Time `json:"detected_at" bson:"detected_at"`
@@ -24,7 +25,7 @@ type AvatarRecord struct {
 	AssetURL      string    `json:"asset_url" bson:"asset_url"`
 	ImageURL      string    `json:"image_url" bson:"image_url"`
 	ThumbnailURL  string    `json:"thumb_url" bson:"thumb_url"`
-	AuthorID      string    `json:"author_id" bson:"author_id"`
+	AuthorId      string    `json:"author_id" bson:"author_id"`
 	ReleaseStatus string    `json:"release" bson:"release"`
 	UpdatedAt     time.Time `json:"updated_at" bson:"updated_at"`
 	DetectedAt    time.Time `json:"detected_at" bson:"detected_at"`
@@ -35,7 +36,7 @@ type WorldRecord struct {
 	AssetURL     string    `json:"asset_url" bson:"asset_url"`
 	ImageURL     string    `json:"image_url" bson:"image_url"`
 	ThumbnailURL string    `json:"thumb_url" bson:"thumb_url"`
-	AuthorID     string    `json:"author_id" bson:"author_id"`
+	AuthorId     string    `json:"author_id" bson:"author_id"`
 	UpdatedAt    time.Time `json:"updated_at" bson:"updated_at"`
 	DetectedAt   time.Time `json:"detected_at" bson:"detected_at"`
 }
