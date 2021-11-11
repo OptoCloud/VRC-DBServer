@@ -33,12 +33,12 @@ func CreatePeer(w http.ResponseWriter, r *http.Request) (*Peer, error) {
 		WriteChan:  make(chan QueuedMessage, sendChanBufferSize),
 	}
 
-	globPeers.Store(peer.authValues.Account.Id, peer)
+	globPeers.Store(peer.authValues.ClientKey, peer)
 
 	return peer, nil
 }
 func (a *Peer) yeet() error {
-	globPeers.Delete(a.authValues.Account.Id)
+	globPeers.Delete(a.authValues.ClientKey)
 	return a.Connection.Close()
 }
 func (a *Peer) writePump() {

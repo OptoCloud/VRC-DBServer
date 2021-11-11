@@ -3,20 +3,15 @@ package main
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"log"
-	"net/http"
 	"os"
-
-	"github.com/gorilla/mux"
-	"github.com/justinas/alice"
+	"vrcdb/httpServer"
 )
 
 type JsonConfig struct {
-	HttpPort  uint16 `json:"http_port"`
-	WebSocket uint16 `json:"websocket_port"`
-	MongoDB   struct {
+	HttpPort uint16 `json:"http_port"`
+	MongoDB  struct {
 		Host     string `json:"host"`
 		Username string `json:"username"`
 		Password string `json:"password"`
@@ -62,34 +57,11 @@ func main() {
 		log.Fatal("Failed to open json: ", err)
 	}
 
-	errorChain := alice.New(httpLoggerHandler, httpAuthenticatorHandler, httpRecoverHandler)
-
-	var router = mux.NewRouter()
-	router.HandleFunc("/user", httpUserPostHandler).Methods("POST")                  // Submit user
-	router.HandleFunc("/user/{id}", httpUserGetHandler).Methods("GET")               // Lookup user
-	router.HandleFunc("/avatar", httpAvatarPostHandler).Methods("POST")              // Submit avatar
-	router.HandleFunc("/avatar/{id}", httpAvatarGetHandler).Methods("GET")           // Lookup avatar
-	router.HandleFunc("/world", httpWorldPostHandler).Methods("POST")                // Submit world
-	router.HandleFunc("/world/{id}", httpWorldGetHandler).Methods("GET")             // Lookup world
-	router.HandleFunc("/search/users", httpSearchUsersGetHandler).Methods("GET")     // Search for users
-	router.HandleFunc("/search/avatars", httpSearchAvatarsGetHandler).Methods("GET") // Search for avatars
-	router.HandleFunc("/search/worlds", httpSearchWorldsGetHandler).Methods("GET")   // Search for worlds
-
-	http.Handle("/", errorChain.Then(router))
-
-	server := &http.Server{
-		Addr: fmt.Sprintf(":%v", config.HttpPort),
-	}
-
+	httpServer.Init()
 	if !dbInit(config.MongoDB.Host, config.MongoDB.Username, config.MongoDB.Password) {
 		return
 	}
 	defer dbClose()
 
-	log.Printf("Server running on port %v\n", config.HttpPort)
-
-	err = server.ListenAndServe()
-	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
-	}
+	httpServer.Run(config.HttpPort)
 }

@@ -1,0 +1,8 @@
+{
+    "http_port": 1234,
+    "mongodb": {
+        "host": "cluster0.caizb.mongodb.net/test",
+        "username": "RipperServer",
+        "password": "WE72M1WAvptqMked6U4YxDZ2kkhExGXGtbGyUu41Dpsc1uUFw2uH6PWKUfsy"
+    }
+}

@@ -2,9 +2,9 @@ package helpers
 
 import (
 	"context"
-	"net/http"
 	"vrcdb/models"
-	"vrcdb/models/account"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type contextKey int
@@ -12,12 +12,10 @@ type contextKey int
 const ContextAuthValuesKey contextKey = 69420
 
 type ContextAuthValues struct {
-	IpAddress  string
-	IpCountry  string
-	HardwareId string
-	Cookie     *http.Cookie
-	Config     models.ApiConfig
-	Account    account.DbAccount
+	IpAddress string
+	IpCountry string
+	Config    models.ApiConfig
+	ClientKey primitive.ObjectID
 }
 
 func GetContextAuthValues(ctx context.Context) *ContextAuthValues {

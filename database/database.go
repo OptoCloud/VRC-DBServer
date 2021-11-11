@@ -11,14 +11,14 @@ import (
 )
 
 var (
-	internalCtx        context.Context
-	internalClient     *mongo.Client
-	internalDatabase   *mongo.Database
-	CollectionConfig   *mongo.Collection
-	CollectionAccounts *mongo.Collection
-	CollectionDevices  *mongo.Collection
-	CollectionGroups   *mongo.Collection
-	CollectionImages   *mongo.Collection
+	internalCtx         context.Context
+	internalClient      *mongo.Client
+	internalDatabase    *mongo.Database
+	CollectionConfig    *mongo.Collection
+	CollectionUploaders *mongo.Collection
+	CollectionUsers     *mongo.Collection
+	CollectionAvatars   *mongo.Collection
+	CollectionWorlds    *mongo.Collection
 )
 
 func Open(clusterUrl string, username string, password string) error {
@@ -49,10 +49,10 @@ func Open(clusterUrl string, username string, password string) error {
 	log.Println("Getting MongoDB collections...")
 	internalDatabase = internalClient.Database("VRChat")
 	CollectionConfig = internalDatabase.Collection("config")
-	CollectionAccounts = internalDatabase.Collection("accounts")
-	CollectionDevices = internalDatabase.Collection("users")
-	CollectionGroups = internalDatabase.Collection("avatars")
-	CollectionImages = internalDatabase.Collection("worlds")
+	CollectionUploaders = internalDatabase.Collection("uploaders")
+	CollectionUsers = internalDatabase.Collection("users")
+	CollectionAvatars = internalDatabase.Collection("avatars")
+	CollectionWorlds = internalDatabase.Collection("worlds")
 
 	err = initConfigWatcher()
 	if err != nil {
